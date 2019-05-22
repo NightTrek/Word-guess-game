@@ -11,7 +11,7 @@ let getRandomInt = function (max) {
 //
 const gameWords = ["coursework", "bootcamp", "javascript", "cascading", "hello", "computer", "icecream", "pizza"];
 const idRange = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", 'a10', "a11", "a12", "a13", "a14", "a15"];
-let currentWord = words[7];
+let currentWord = gameWords[7];
 
 //array of letterstructs 
 
@@ -88,7 +88,9 @@ class current {
 }
 ''
 
-const newLetter = new current()
+const newLetter = new Letterstruct("h", "a1")
+
+newLetter.show();
 
 
 // 
