@@ -26,6 +26,7 @@ var pastGuess = [];
 //   this.ID = id;
 // }
 
+//Letterstruct is a class which takes an input letter and element ID and constructs 
 class Letterstruct {
   constructor(input, elemID) {
     this.letter = input;
@@ -62,7 +63,7 @@ class current {
   constructor(word, idArray) {
     this.letterArray = [];
     for (let i = 0; i < word.length; i++) {
-      this.letterArray.push(new letterstruct(word[i], idArray));
+      this.letterArray.push(new Letterstruct(word[i], idArray[i]));
     }
     this.numberOfletters = word.length;
 
@@ -85,16 +86,12 @@ class current {
   }
 
 }
+''
+
+const newLetter = new current()
 
 
-
-currentWord.forEach(letter => {
-  current.push(new letterstruct(letter));
-  console.log(current);
-});
-
-console.log(current);
-
+// 
 // potentially write event handlers for other game options
 
 
