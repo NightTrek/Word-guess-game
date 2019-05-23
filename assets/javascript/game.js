@@ -11,18 +11,18 @@ let getRandomInt = function (max) {
 //
 const gameWords = ["coursework", "bootcamp", "javascript", "cascading", "hello", "computer", "icecream", "pizza"];
 const idRange = [
-  {A: document.getElementById("a1")},
-  {A: document.getElementById("a2")},
-  {A: document.getElementById("a3")},
-  {A: document.getElementById("a4")},
-  {A: document.getElementById("a5")},
-  {A: document.getElementById("a6")},
-  {A: document.getElementById("a7")},
-  {A: document.getElementById("a8")},
-  {A: document.getElementById("a9")},
-  {A: document.getElementById("a10")},
-  {A: document.getElementById("a11")},
-  {A: document.getElementById("a12")}
+  { A: document.getElementById("a1") },
+  { A: document.getElementById("a2") },
+  { A: document.getElementById("a3") },
+  { A: document.getElementById("a4") },
+  { A: document.getElementById("a5") },
+  { A: document.getElementById("a6") },
+  { A: document.getElementById("a7") },
+  { A: document.getElementById("a8") },
+  { A: document.getElementById("a9") },
+  { A: document.getElementById("a10") },
+  { A: document.getElementById("a11") },
+  { A: document.getElementById("a12") }
 ];
 
 console.log(idRange[1].ID);
@@ -40,6 +40,7 @@ var currentWord = gameWords[7];
 //blank set to "___"
 // render() renders the letter as based on the hidden state
 //show() changed the hidden to false and renders() 
+//example usage below class
 class Letterstruct {
   constructor(input, elemID) {
     this.letter = input;
@@ -48,11 +49,11 @@ class Letterstruct {
     this.hidden = true;
     this.blank = "___";
 
-    
-  }
 
+  }
+  //working
   render() {
-    console.log("Rendering page")
+    // console.log("Rendering page")
     if (this.hidden == false) {
       this.ID.textContent = this.letter;
       return;
@@ -61,18 +62,28 @@ class Letterstruct {
     this.ID.textContent = this.blank;
   }
 
-  show(){
-    console.log("showing letterstruct value");
+  show() {
+    // console.log("showing letterstruct value");
     this.hidden = false;
+    this.render();
+  }
+
+  hideLetter() {
+    // console.log("hding letterstruct value");
+    this.hidden = true;
     this.render();
   }
 
 
 }
+//example ussage 
+//const newLetter = new Letterstruct("h", idRange[0].A);
+//newLetter.render();
+//letterFromClass = newLetter.letter
 
-const newLetter = new Letterstruct("h", idRange[0].A);
-console.log(newLetter.render());
 
+
+//-------------------------------------------------------------------------------------------------------------------
 // console.log(`stuff to talk about ${this.letter}`)
 // use the key to the left of one. called backticks 
 
@@ -82,19 +93,26 @@ console.log(newLetter.render());
 //guessesRemaining = 1.8 times the number of characters
 class GameState {
   constructor(word, idArray) {
+    console.log("GameState Constructor start ------------------------------");
     this.letterArray = [];
     for (let i = 0; i < word.length; i++) {
       this.letterArray.push(new Letterstruct(word[i], idArray[i].A));
       // letterArray[]
     }
     this.numberOfletters = word.length;
-    this.guessesRemaining = word.length*1.8;
+    this.guessesRemaining = Math.floor(word.length * 1.8);
     this.pastGuess = [];
     this.wins = 0;
     this.losses = 0;
-
+    console.log("constructor finish ----------------------------------------");
   }
+  //takes no inputs remakes the constructor to use a new random word without resetting wins and losses
+  // newWord(){
+  //   constrctor(word, idArray);
 
+  // }
+
+  //seems to be working
   //function which itterates through each letter and renders them based on the show state (true/false)
   renderAll() {
     this.letterArray.forEach(function (elem) {
@@ -102,8 +120,10 @@ class GameState {
     });
   }
 
+  //seems to be working
   //function which iterates through each letter and renders all the elements which corespond to the current guess
   renderLetter(l) {
+    console.log("rendering letter " + l);
     this.letterArray.forEach(function (elem) {
       if (elem.letter == l) {
         elem.show();
@@ -111,13 +131,55 @@ class GameState {
     });
   }
 
+  isGuessNew(l){
+    this.pastGuess.forEach( function (elem) {
+      if(elem == l){
+        return false; 
+      }
+    });
+    return true;
+  }
+
+  //user input handler takes input from keyup in string form and either changes the game state to reflect a incorrect solution or renderstheLetter
+  userInput(l) {
+    console.log("--------------------------------xxxxxxxxxxxxxxxx---------------xxxxxxxxxxxxxxxxx------------")
+    console.log(this.guessesRemaining);
+    // this.letterArray.forEach(function (elem) {
+    //   console.log(` element letter is ${elem.letter}  l = ${l} `);
+    //   console.log((elem.letter == l));
+
+    // });
+    for (let q = 0; q < this.letterArray.length; q++) {
+      if (this.letterArray[q].letter == l) {
+        console.log("correct letter guessed rendering letter......");
+        this.renderLetter(l);
+        return;
+      }
+    }
+    if(this.isGuessNew(l)){
+    this.guessesRemaining -= 1;
+    this.pastGuess.push(l);
+    console.log(`guesses remaining ${this.guessesRemaining} pastGuess ${this.pastGuess} `)
+    }
+    if (this.guessesRemaining == 0) {
+      alert("you lost haha");
+    }
+  }
+
+  //end of class
 }
 ''
 
-const newGameState = new GameState("hellllagood",idRange);
+const newGameState = new GameState("hellllagood", idRange);
 console.log("newGameState succseful");
 
-newGameState.renderLetter("l");
+document.onkeyup = function (event) {
+
+  // Determines which key was pressed.
+  let userGuess = event.key.toLowerCase();
+  newGameState.userInput(userGuess);
+
+}
 
 
 // 

@@ -1,4 +1,6 @@
-
+.hangmantext{
+    font-family: 'Ewert', cursive;
+}
 
 @media (min-width: 992px) {
     .navbar {
