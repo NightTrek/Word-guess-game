@@ -1,5 +1,6 @@
 .hangmantext{
     font-family: 'Ewert', cursive;
+    /* font-size: 90%; */
 }
 
 @media (min-width: 992px) {

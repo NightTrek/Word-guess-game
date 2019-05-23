@@ -58,7 +58,6 @@ class Letterstruct {
       this.ID.textContent = this.letter;
       return;
     }
-
     this.ID.textContent = this.blank;
   }
 
@@ -92,15 +91,18 @@ class Letterstruct {
 // Number of letters is the total number of characters in the word
 //guessesRemaining = 1.8 times the number of characters
 class GameState {
+  
   constructor(word, idArray) {
     console.log("GameState Constructor start ------------------------------");
+    if(word.length>12){
+      console.error(" too many letter in the target word");
+    }
     this.letterArray = [];
     for (let i = 0; i < word.length; i++) {
       this.letterArray.push(new Letterstruct(word[i], idArray[i].A));
-      // letterArray[]
     }
     this.numberOfletters = word.length;
-    this.guessesRemaining = Math.floor(word.length * 1.8);
+    this.guessesRemaining = Math.floor(word.length * 1.3);
     this.pastGuess = [];
     this.wins = 0;
     this.losses = 0;
@@ -131,14 +133,31 @@ class GameState {
     });
   }
 
+  //working
+  //takes and input and checks if guess is in the pastguess array and return true if it finds nothing 
   isGuessNew(l){
-    this.pastGuess.forEach( function (elem) {
-      if(elem == l){
-        return false; 
-      }
-    });
+    if(this.pastGuess.includes(l)){
+      return false;
+    }
     return true;
   }
+
+  //broken always returns true
+  //loops through each letter and if hidden is false for all letters return true; if it finds a hidden letter it returns false
+  checkWinState(){
+    console.log("---------------------check win state------------");
+    let a = this.letterArray.length
+    for(let count = 0; count < a; count++ ){
+      console.log(` letter aray hidden value before ${this.letterArray[count].hidden} `);
+      if(this.letterArray[count].hidden = true){
+        console.log('------------check win state finished RETURN FALSE!---------');
+        return false;
+      }
+    }
+    console.log('------------check win state finished RETURN TRUE!---------');
+    return true;
+  }
+
 
   //user input handler takes input from keyup in string form and either changes the game state to reflect a incorrect solution or renderstheLetter
   userInput(l) {
@@ -164,20 +183,28 @@ class GameState {
     if (this.guessesRemaining == 0) {
       alert("you lost haha");
     }
+    if(this.checkWinState()){
+      alert('you win!')
+    }
   }
+
 
   //end of class
 }
 ''
 
-const newGameState = new GameState("hellllagood", idRange);
+const newGameState = new GameState("journalism", idRange);
+newGameState.renderAll();
 console.log("newGameState succseful");
 
+//key event handler
 document.onkeyup = function (event) {
 
   // Determines which key was pressed.
   let userGuess = event.key.toLowerCase();
+
   newGameState.userInput(userGuess);
+ console.log(newGameState.checkWinState());
 
 }
 
