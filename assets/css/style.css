@@ -3,26 +3,40 @@
     /* font-size: 90%; */
 }
 
-#wins{
-
+.west-text{
+    font-family: 'Aladin', cursive;
+    font-size: 26px
+}
+.instruct{
+    font-family: 'Aladin', cursive;
+    font-size: 20px
+}
+.bg-info{
+    background-color:#61E294 !important;
 }
 
-#losses{
-
-
+.bg-primary{
+    background-color: #6E44FF !important;
+}
+.bg-warning{
+    background-color: #EFA00B !important;
 }
 
-#guessesremaining{
-
-
+.bg-danger{
+    background-color: #DB5E77 !important;
 }
-
+.bg-success {
+    background-color: #3DC6A9 !important;
+}
+.bg-secondary{
+    background-color: #DBBBF5 !important;
+}
 #pguesses{
 color: white;
 
 }
 .pguesses{
-    width: 500px;
+    width: 500px !important;
 }
 
 
