@@ -3,6 +3,29 @@
     /* font-size: 90%; */
 }
 
+#wins{
+
+}
+
+#losses{
+
+
+}
+
+#guessesremaining{
+
+
+}
+
+#pguesses{
+color: white;
+
+}
+.pguesses{
+    width: 500px;
+}
+
+
 @media (min-width: 992px) {
     .navbar {
         height:50px;
