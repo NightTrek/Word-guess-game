@@ -36,7 +36,8 @@ String.prototype.hexDecode = function () {
 const gameWords = ["coursework", "bootcamp", "journalism", "jquery", "this", "attack", "bottle",
   "camera", "dollar", "code", "development", "google", "expert", "javascript", "cascading",
   "hello", "computer", "icecream", "recursion", "objectifying", "tranquillize", "equalization",
-  "hyperbolized", "pizza"];
+  "hyperbolized", "pizza","extravaganza","bar","bot", "phylum","iff","lux","crocodile","shark",
+  "sloth","noob","oxygen", "hydrogen","xenon", "cryptography","tax","onyx", "coaxial","matrix"];
 const idRange = [
   { A: document.getElementById("a1") },
   { A: document.getElementById("a2") },
@@ -285,7 +286,7 @@ $(document).ready(function () {
   $(".start-button").on("click", function () {
     let newWord = gameWords[getRandomInt(gameWords.length)];
     let hexWord = newWord.hexEncode()
-    
+
     console.log(`todays secret hash is [ ${hexWord}  ] New Game state started ----`)
     newGameState.startGame(newWord);
 
