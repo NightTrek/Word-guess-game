@@ -3,24 +3,24 @@ let getRandomInt = function (max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 //hex encoder
-String.prototype.hexEncode = function(){
+String.prototype.hexEncode = function () {
   var hex, i;
 
   var result = "";
-  for (i=0; i<this.length; i++) {
-      hex = this.charCodeAt(i).toString(16);
-      result += ("000"+hex).slice(-4);
+  for (i = 0; i < this.length; i++) {
+    hex = this.charCodeAt(i).toString(16);
+    result += ("000" + hex).slice(-4);
   }
 
   return result
 }
 //back too string
-String.prototype.hexDecode = function(){
+String.prototype.hexDecode = function () {
   var j;
   var hexes = this.match(/.{1,4}/g) || [];
   var back = "";
-  for(j = 0; j<hexes.length; j++) {
-      back += String.fromCharCode(parseInt(hexes[j], 16));
+  for (j = 0; j < hexes.length; j++) {
+    back += String.fromCharCode(parseInt(hexes[j], 16));
   }
 
   return back;
@@ -33,10 +33,10 @@ String.prototype.hexDecode = function(){
 //letters guessed 
 //number of guesses left
 //
-const gameWords = ["coursework", "bootcamp","journalism","jquery","this","attack","bottle",
- "camera", "dollar", "code","development","google" , "expert" ,"javascript", "cascading",
-  "hello", "computer", "icecream","recursion","objectifying","tranquillize", "equalization",
-  "hyperbolized" , "pizza"];
+const gameWords = ["coursework", "bootcamp", "journalism", "jquery", "this", "attack", "bottle",
+  "camera", "dollar", "code", "development", "google", "expert", "javascript", "cascading",
+  "hello", "computer", "icecream", "recursion", "objectifying", "tranquillize", "equalization",
+  "hyperbolized", "pizza"];
 const idRange = [
   { A: document.getElementById("a1") },
   { A: document.getElementById("a2") },
@@ -123,6 +123,7 @@ class GameState {
     for (let i = 0; i < word.length; i++) {
       this.letterArray.push(new Letterstruct(word[i], idArray[i].A));
     }
+    this.cutinput = false;
     this.numberOfletters = word.length;
     this.guessesRemaining = Math.floor(word.length * 1.3);
     this.pastGuess = [];
@@ -140,7 +141,7 @@ class GameState {
   //   constrctor(word, idArray);
 
   // }
-  renderhideAll(){
+  renderhideAll() {
     this.idList.forEach(function (obj) {
       obj.A.textContent = "";
     });
@@ -204,6 +205,7 @@ class GameState {
       }
     }
     this.wins++;
+    this.cutinput = true;
     alert("you win!")
     return true;
   }
@@ -214,27 +216,29 @@ class GameState {
 
   //user input handler takes input from keyup in string form and either changes the game state to reflect a incorrect solution or renderstheLetter
   userInput(l) {
-    for (let q = 0; q < this.letterArray.length; q++) {
-      if (this.letterArray[q].letter == l) {
-        this.renderLetter(l);
-        this.correctGuesses++;
-        this.checkWinState();
-        return;
+    if (this.cutinput == false) {
+      for (let q = 0; q < this.letterArray.length; q++) {
+        if (this.letterArray[q].letter == l) {
+          this.renderLetter(l);
+          this.correctGuesses++;
+          this.checkWinState();
+          return;
+        }
       }
-    }
 
-    if (this.isGuessNew(l)) {
-      this.guessesRemaining -= 1;
-      this.pastGuess.push(l);
+      if (this.isGuessNew(l)) {
+        this.guessesRemaining -= 1;
+        this.pastGuess.push(l);
+      }
+      if (this.guessesRemaining == 0) {
+        this.losses++;
+        this.cutinput = true;
+        alert("you lost haha");
+      }
+      this.checkWinState();
+      this.renderGameData();
     }
-    if (this.guessesRemaining == 0) {
-      this.losses++;
-      alert("you lost haha");
-    }
-    this.checkWinState();
-    this.renderGameData();
   }
-
   startGame(wordInput) {
     this.letterArray = [];
     this.renderhideAll();
@@ -245,6 +249,7 @@ class GameState {
     this.numberOfletters = wordInput.length;
     this.guessesRemaining = Math.floor(wordInput.length * 1.3);
     this.pastGuess = [];
+    this.cutinput = false;
     this.renderAll();
   }
 
@@ -279,10 +284,9 @@ $(document).ready(function () {
   //click event handlers 
 
   $(".start-button").on("click", function () {
-    alert("new game started");
     let newWord = gameWords[getRandomInt(gameWords.length)];
     let hexWord = newWord.hexEncode()
-    console.log(`New Word is  [ ${hexWord}  ]  New Game state started ---------------`)
+    console.log(`todays secret hash is [ ${hexWord}  ] New Game state started ----`)
     newGameState.startGame(newWord);
 
   });
