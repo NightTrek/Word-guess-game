@@ -245,7 +245,6 @@ class GameState {
     for (let i = 0; i < wordInput.length; i++) {
       this.letterArray.push(new Letterstruct(wordInput[i], this.idList[i].A));
     }
-    // this.printAllLetterArray();
     this.numberOfletters = wordInput.length;
     this.guessesRemaining = Math.floor(wordInput.length * 1.3);
     this.pastGuess = [];
