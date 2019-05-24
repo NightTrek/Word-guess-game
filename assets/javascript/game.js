@@ -36,8 +36,8 @@ String.prototype.hexDecode = function () {
 const gameWords = ["coursework", "bootcamp", "journalism", "jquery", "this", "attack", "bottle",
   "camera", "dollar", "code", "development", "google", "expert", "javascript", "cascading",
   "hello", "computer", "icecream", "recursion", "objectifying", "tranquillize", "equalization",
-  "hyperbolized", "pizza","extravaganza","bar","bot", "phylum","iff","lux","crocodile","shark",
-  "sloth","noob","oxygen", "hydrogen","xenon", "cryptography","tax","onyx", "coaxial","matrix"];
+  "hyperbolized", "pizza", "extravaganza", "bar", "bot", "phylum", "iff", "lux", "crocodile", "shark",
+  "sloth", "noob", "oxygen", "hydrogen", "xenon", "cryptography", "tax", "onyx", "coaxial", "matrix"];
 const idRange = [
   { A: document.getElementById("a1") },
   { A: document.getElementById("a2") },
@@ -112,6 +112,26 @@ class Letterstruct {
 // letterArray is a constructed array of letterstructs
 // Number of letters is the total number of characters in the word
 //guessesRemaining = 1.8 times the number of characters
+//cutinput is a boolean which when true causes the game to ignore keyboard inputs
+//pastguess is an array of past guesses
+//wins 
+//losses
+//correctguesses unused
+//$idWins is the jquery object to display win data
+//$idlosses is the jquery object to display losses data
+//$idguessesRemaining is the jquery object to display guesses remaining data
+//$idpastguesses is the jquery object to display the pastguesses array data
+//contained methods --------------------------------------------------
+//renderhideAll() resets all the jumbotron id's to display nothing
+//renderGameData() render game data to screen through jquery objects above
+//renderAll() renders all the jumbotron elements in letterArray
+//RenderLetter( l string ) takes one peram a string for the letter. Renders all the letterArray elements with the same letter
+//isGuessNew() returns true if the guess isnt in the previous guess array
+//printAllLetterArray() iterates through and prints all of letter arrays data. for troubleshooting purposes.
+//checkWinState() returns true if you win the game and handles win activites like disabling key inputs and increasing win count
+//userInputHander() Handles keyboard input and and handles loss conditions as well as checking the winstate.
+//startGame( wordInput string) a reconstructor which constructs a new letterArray and resets the game without loosing data.
+
 class GameState {
 
   constructor(word, idArray) {
@@ -182,6 +202,7 @@ class GameState {
     return true;
   }
 
+  //pretty self explenatory logging method for debugging letterArray functions
   printAllLetterArray() {
     console.log("--------printing letter arrays --------------------------")
     this.letterArray.forEach(peram => {
@@ -195,7 +216,7 @@ class GameState {
 
 
 
-  //broken always returns true
+  //working
   //loops through each letter and if hidden is false for all letters return true; if it finds a hidden letter it returns false
   checkWinState() {
     // this.printAllLetterArray();
@@ -210,13 +231,14 @@ class GameState {
     alert("you win!")
     return true;
   }
+  //could have done the same thing by counting the number of correct guesses and comparing too the length of letterArray
   checkWinState2() {
 
   }
 
 
   //user input handler takes input from keyup in string form and either changes the game state to reflect a incorrect solution or renderstheLetter
-  userInput(l) {
+  userInputHander(l) {
     if (this.cutinput == false) {
       for (let q = 0; q < this.letterArray.length; q++) {
         if (this.letterArray[q].letter == l) {
@@ -240,6 +262,7 @@ class GameState {
       this.renderGameData();
     }
   }
+
   startGame(wordInput) {
     this.letterArray = [];
     this.renderhideAll();
@@ -272,10 +295,10 @@ $(document).ready(function () {
   //key event handler ------------------------------------------------------------------------------
   document.onkeyup = function (event) {
 
-    // Determines which key was pressed. 
+    //ensures the event.key is lower case string
     let userGuess = event.key.toLowerCase();
-
-    newGameState.userInput(userGuess);
+    //userInputHandler is the primary game " loop " does the renderin and controling.
+    newGameState.userInputHander(userGuess);
 
 
   }
@@ -296,9 +319,6 @@ $(document).ready(function () {
 
   // 
   // potentially write event handlers for other game options
-
-
-  //write an event listener which looks for the start button to be pressed 
 
   //
   //set an array of letter objects which store the letter and a boolean for show or not set the letters to current guess and all the bools to false.
