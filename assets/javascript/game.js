@@ -67,11 +67,11 @@ class Letterstruct {
     this.render();
   }
 
-  hideLetter() {
-    // console.log("hding letterstruct value");
-    this.hidden = true;
-    this.render();
-  }
+  // hideLetter() {
+  //   // console.log("hding letterstruct value");
+  //   this.hidden = true;
+  //   this.render();
+  // }
 
 
 }
@@ -106,6 +106,7 @@ class GameState {
     this.pastGuess = [];
     this.wins = 0;
     this.losses = 0;
+    this.correctGuesses = 0;
     console.log("constructor finish ----------------------------------------");
   }
   //takes no inputs remakes the constructor to use a new random word without resetting wins and losses
@@ -142,20 +143,35 @@ class GameState {
     return true;
   }
 
+  printAllLetterArray(){
+    console.log("--------printing letter arrays --------------------------")
+    this.letterArray.forEach( peram =>  {
+      console.log("-------------------")
+      console.log(peram.letter)
+      console.log(peram.hidden)
+      console.log(peram.ID)
+  });
+  console.log("--------Finished printing letter arrays --------------------------")
+}
+
   //broken always returns true
   //loops through each letter and if hidden is false for all letters return true; if it finds a hidden letter it returns false
   checkWinState(){
     console.log("---------------------check win state------------");
-    let a = this.letterArray.length
+    this.printAllLetterArray();
+    let a = this.letterArray.length;//-1
     for(let count = 0; count < a; count++ ){
-      console.log(` letter aray hidden value before ${this.letterArray[count].hidden} `);
-      if(this.letterArray[count].hidden = true){
+      console.log(` letter aray hidden value before ${this.letterArray[count].hidden} and the letter is ${this.letterArray[count].letter} `);
+      if(this.letterArray[count].hidden == true){
         console.log('------------check win state finished RETURN FALSE!---------');
         return false;
       }
     }
     console.log('------------check win state finished RETURN TRUE!---------');
     return true;
+  }
+  checkWinState2(){
+
   }
 
 
@@ -172,9 +188,11 @@ class GameState {
       if (this.letterArray[q].letter == l) {
         console.log("correct letter guessed rendering letter......");
         this.renderLetter(l);
+        this.correctGuesses++;
         return;
       }
     }
+    
     if(this.isGuessNew(l)){
     this.guessesRemaining -= 1;
     this.pastGuess.push(l);
