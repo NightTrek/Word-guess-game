@@ -285,6 +285,7 @@ $(document).ready(function () {
   $(".start-button").on("click", function () {
     let newWord = gameWords[getRandomInt(gameWords.length)];
     let hexWord = newWord.hexEncode()
+    
     console.log(`todays secret hash is [ ${hexWord}  ] New Game state started ----`)
     newGameState.startGame(newWord);
 
